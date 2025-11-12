@@ -28,10 +28,10 @@ services:
       - coolify
 
   redis:
-    image: redis:7-alpine
-    command: redis-server --appendonly yes
-    volumes:
-      - redis-data:/data
+    image: redis:alpine
+    restart: always
+    expose:
+      - 6379
     networks:
       - coolify
 

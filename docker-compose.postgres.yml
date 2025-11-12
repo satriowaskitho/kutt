@@ -5,14 +5,14 @@ services:
     volumes:
       - custom:/kutt/custom
     environment:
-        DB_CLIENT: pg
-        DB_HOST: postgres
-        DB_PORT: 5432
-        REDIS_ENABLED: true
-        REDIS_HOST: redis
-        REDIS_PORT: 6379
+      DB_CLIENT: pg
+      DB_HOST: postgres
+      DB_PORT: 5432
+      REDIS_ENABLED: true
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     ports:
-      - 3000:3010
+      - 3010:3010
     depends_on:
       postgres:
         condition: service_healthy
@@ -26,11 +26,11 @@ services:
       - db_data_pg:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: ${DB_NAME}
-      POSTGRES_PASSWORD: ${DB_PASSWORD} 
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     expose:
       - 5432
     healthcheck:
-      test: [ "CMD", "pg_isready" ]
+      test: ["CMD", "pg_isready"]
       interval: 10s
       timeout: 5s
       retries: 5

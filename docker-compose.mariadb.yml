@@ -5,14 +5,14 @@ services:
     volumes:
       - custom:/kutt/custom
     environment:
-        DB_CLIENT: mysql2
-        DB_HOST: mariadb
-        DB_PORT: 3306
-        REDIS_ENABLED: true
-        REDIS_HOST: redis
-        REDIS_PORT: 6379
+      DB_CLIENT: mysql2
+      DB_HOST: mariadb
+      DB_PORT: 3306
+      REDIS_ENABLED: true
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     ports:
-      - 3000:3010
+      - 3010:3010
     depends_on:
       mariadb:
         condition: service_healthy
@@ -22,7 +22,11 @@ services:
     image: mariadb:10
     restart: always
     healthcheck:
-      test: ['CMD-SHELL', 'mysql ${DB_NAME} --user=${DB_USER} --password=${DB_PASSWORD} --execute "SELECT 1;"']
+      test:
+        [
+          "CMD-SHELL",
+          'mysql ${DB_NAME} --user=${DB_USER} --password=${DB_PASSWORD} --execute "SELECT 1;"',
+        ]
       interval: 3s
       retries: 5
       start_period: 30s
