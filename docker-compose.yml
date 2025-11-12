@@ -3,12 +3,42 @@ services:
     build:
       context: .
     volumes:
-       - db_data_sqlite:/var/lib/kutt
-       - custom:/kutt/custom
+      - db_data_sqlite:/var/lib/kutt
+      - custom:/kutt/custom
     environment:
       DB_FILENAME: "/var/lib/kutt/data.sqlite"
+      REDIS_ENABLED: ${REDIS_ENABLED}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      DEFAULT_DOMAIN: ${DEFAULT_DOMAIN}
+      SITE_NAME: ${SITE_NAME}
+      JWT_SECRET: ${JWT_SECRET}
+      MAIL_HOST: ${MAIL_HOST}
+      MAIL_PORT: ${MAIL_PORT}
+      MAIL_USER: ${MAIL_USER}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      MAIL_FROM: ${MAIL_FROM}
     ports:
-      - 3000:3010
+      - 3010:3010
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.kutt.rule=Host(`${DEFAULT_DOMAIN}`)"
+      - "traefik.http.services.kutt.loadbalancer.server.port=3010"
+    networks:
+      - coolify
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-data:/data
+    networks:
+      - coolify
+
 volumes:
   db_data_sqlite:
   custom:
+
+networks:
+  coolify:
+    external: true
