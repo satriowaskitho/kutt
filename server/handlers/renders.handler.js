@@ -14,7 +14,7 @@ async function homepage(req, res) {
     return;
   }
   res.render("homepage", {
-    title: "Free modern URL shortener",
+    title: "Easy Shortlink for Key Integration, Accessible, Manageable, and Built for Optimal Security.",
   });
 }
 
